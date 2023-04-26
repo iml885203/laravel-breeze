@@ -167,6 +167,9 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'old_password' => [
+        'not_same' => 'The :attribute field must not match the previous :count passwords.'
+    ],
 
     /*
     |--------------------------------------------------------------------------
