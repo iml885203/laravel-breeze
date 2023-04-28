@@ -14,6 +14,8 @@ sail up
 sail php artisan key:generate
 sail php artisan migrate
 sail php artisan db:seed
+sail npm install
+sail npm run dev
 ```
 
 Now you can access the application at http://localhost.
