@@ -35,15 +35,19 @@ class OldPassword implements ValidationRule
     {
         /** @var User $user */
         $user = auth()->user();
-        $oldPasswords = $user->passwordHistories()
-            ->select('password')
-            ->latest()
-            ->take($this->count)
-            ->get()
-            ->pluck('password');
 
-        foreach ($oldPasswords as $oldPassword) {
-            if (Hash::check($value, $oldPassword)) {
+        $previousPasswords = $user->passwordHistories()
+            ->select('password')
+            ->latest('id')
+            ->take($this->count - 1)
+            ->get()
+            ->pluck('password')
+            ->toArray();
+        $currentPassword = $user->password;
+        $passwords = array_merge($previousPasswords, [$currentPassword]);
+
+        foreach ($passwords as $password) {
+            if (Hash::check($value, $password)) {
                 $fail('validation.old_password.not_same')->translate([
                     'count' => $this->count
                 ]);
